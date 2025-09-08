@@ -13,6 +13,6 @@ books_in_library = library.books.all()
 for book in books_in_library:
     print(book.title)
 
-library = Library.objects.get(name="Central Library")
+library = Library.objects.get(name="library_name")
 librarian = library.librarian  # thanks to OneToOneField related_name
 print(librarian.name)
