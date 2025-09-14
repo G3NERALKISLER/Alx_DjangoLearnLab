@@ -4,7 +4,7 @@ from .models import Book
 from  django.contrib.auth.decorators import permission_required
 from django.contrib.auth.decorators import login_required
 from django import forms
-from .forms import  SearchForm
+from .forms import ExampleForm, SearchForm
 @login_required
 # Create your views here.
 def book_list(request): 
