@@ -25,6 +25,15 @@ SECRET_KEY = 'django-insecure-(h@pcakg&6a_rps^-!4j3z^bmkwjo&4vxtl(27vct^*65mfizr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Browser security headers
+SECURE_BROWSER_XSS_FILTER = True   # Prevents reflected XSS attacks
+X_FRAME_OPTIONS = "DENY"           # Prevents clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True # Prevents MIME-type sniffing
+
+# Cookie security
+CSRF_COOKIE_SECURE = True   # CSRF cookies only via HTTPS
+SESSION_COOKIE_SECURE = True  # Session cookies only via HTTPS
+
 ALLOWED_HOSTS = []
 
 
@@ -49,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -99,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-AUTH_USER_MODEL = "relationship_app.CustomUser"  # assuming
+AUTH_USER_MODEL = "bookshelf.CustomUser"  # assuming
 
 
 
