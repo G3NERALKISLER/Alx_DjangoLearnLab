@@ -2,10 +2,11 @@ from rest_framework import generics,permissions
 from .models import Book, Author
 from .serializers import BookSerializer, AuthorSerializer
 from rest_framework.permissions import BasePermission
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 class ListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]  # anyone can view
+    permission_classes = [IsAuthenticatedOrReadOnly]  # anyone can view
 
 
 # 2. Retrieve a single book by ID
