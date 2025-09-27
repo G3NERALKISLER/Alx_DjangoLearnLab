@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book API Example</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    a {text-decoration:none;}
+    .book { 
+      display:flex;
+      margin-left:20px;
+      width:400px;
+      margin-bottom: 10px; 
+      padding: 10px; 
+      border: 1px solid #ccc; 
+      border-radius: 5px;
+      background: #f9f9f9;
+    }
+    .title { font-weight: bold; font-size: 1.2em; color:#590;}
+    .author { color: #555; }
+  </style>
+</head>
+<body>
+  <h1>📚 BOOKSHOP</h1>
+  <h2>books available at our stores</h2>
+
+  <a href=""><div id="book-list"></div></a>
+
+  <script>
+    // Call your Django API
+    fetch("https://gutendex.com/books/")  
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById("book-list");
+
+        data.results.forEach(book => {
+          const div = document.createElement("div");
+          div.className = "book";
+
+          div.innerHTML = `
+            <div class="title">${book.title}</div>
+            <div class="author"> by ${book.authors.map(a => a.name).join(", ")}</div>
+          `;
+
+          list.appendChild(div);
+        });
+      })
+      .catch(error => console.error("Error fetching books:", error));
+  </script>
+</body>
+</html>
