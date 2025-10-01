@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register a New user</title>
+    <style>
+        body    {background-color:black; color:Green; padding:20px;}
+        form { line-height:1.5; color:blue; }
+        button { margin:10px; color:white; background-color:green; border-radius:5px; border:none;}
+        .errorlist {
+            color: red;
+            font-size: 14px;
+            margin: 5px 0;
+            list-style: none;
+            padding-left: 0;
+          }
+        form input{border-radius:5px; border:none;}
+        form ul{color:lightblue;}
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <a href="{% url 'blog:home'%}"> <span role="img" aria-label="about">🏡</span></a>   |
+            <a href="{% url 'blog:posts'%}"><span role="img" aria-label="postslists">📰</span></a> |
+        </ul>
+    </nav>
+    <h2>Register a New User</h2>
+    <form class="form" action="/blog/register_view/" method='POST'>
+        {% csrf_token %}
+        {{form}}
+       
+        <button> Submit </button>
+    </form>
+</body>
+</html>
