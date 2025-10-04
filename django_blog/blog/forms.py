@@ -14,13 +14,12 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['bio', 'profile_picture']
-        
+
 class PostForm(forms.ModelForm):
     tags = forms.CharField(
         required=False,
         help_text="Enter tags separated by commas",
-        widget=forms.TextInput(attrs={'placeholder': 'e.g. django, python, blog'})
-    )
+        widget={'tags': TagWidget(),}
     class Meta:
         model = Post
         fields = ['title', 'author']
