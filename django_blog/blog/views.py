@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Post,Comment
+from .models import Post,Comment,Tag
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .forms import UserForm, ProfileForm
 from django.contrib.auth.decorators import login_required
@@ -8,6 +8,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import PostForm, CommentForm
 from django.urls import reverse_lazy,reverse
+from django.db.models import Q
 # Create your views here.
 class PostListView(ListView):
     model = Post
@@ -162,3 +163,19 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         return reverse('blog:post_detail', kwargs={'pk': self.object.post.pk})
 
+
+def search_posts(request):
+    query = request.GET.get('q')
+    results = []
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+    return render(request, 'blog/search_results.html', {'query': query, 'results': results})
+
+def posts_by_tag(request, tag_name):
+    tag = get_object_or_404(Tag, name=tag_name)
+    posts = tag.posts.all()
+    return render(request, 'blog/posts_by_tag.html', {'tag': tag, 'posts': posts})

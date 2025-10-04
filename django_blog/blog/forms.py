@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile, Post, Comment
+from .models import Profile, Post, Comment,Tag
 
 # Allow editing User basic info
 class UserForm(forms.ModelForm):
@@ -15,10 +15,27 @@ class ProfileForm(forms.ModelForm):
         fields = ['bio', 'profile_picture']
 
 class PostForm(forms.ModelForm):
+    tags = forms.CharField(
+        required=False,
+        help_text="Enter tags separated by commas",
+        widget=forms.TextInput(attrs={'placeholder': 'e.g. django, python, blog'})
+    )
     class Meta:
         model = Post
         fields = ['title', 'author']
    
+    def save(self, commit=True):
+        post = super().save(commit=False)
+        if commit:
+            post.save()
+        # handle tags
+        tags_str = self.cleaned_data.get('tags', '')
+        tag_names = [t.strip() for t in tags_str.split(',') if t.strip()]
+        post.tags.clear()
+        for name in tag_names:
+            tag_obj, created = Tag.objects.get_or_create(name=name.lower())
+            post.tags.add(tag_obj)
+        return post
 
 class CommentForm(forms.ModelForm):
     class Meta:
