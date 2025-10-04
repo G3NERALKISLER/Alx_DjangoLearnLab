@@ -12,8 +12,8 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('login/', views.Login_View, name='Login'),
     path("profile/", views.profile_view, name="profile"),
-    path('posts/<int:post_pk>/comments/', views.CommentListView.as_view(), name='comment_list'),
-    path('posts/<int:post_pk>/comments/new/', views.CommentCreateView.as_view(), name='comment_create'),
-    path('comments/<int:pk>/edit/', views.CommentUpdateView.as_view(), name='comment_edit'),
+    path('post/<int:post_pk>/comments/', views.CommentListView.as_view(), name='comment_list'),
+    path('post/<int:post_pk>/comments/new/', views.CommentCreateView.as_view(), name='comment_create'),
+    path('comments/<int:pk>/update/', views.CommentUpdateView.as_view(), name='comment_edit'),
     path('comments/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment_delete'),
 ]
