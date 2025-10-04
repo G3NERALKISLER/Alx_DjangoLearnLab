@@ -175,7 +175,7 @@ def search_posts(request):
         ).distinct()
     return render(request, 'blog/search_results.html', {'query': query, 'results': results})
 
-def posts_by_tag(request, tag_name):
+def PostByTagListView(request, tag_name):
     tag = get_object_or_404(Tag, name=tag_name)
     posts = tag.posts.all()
     return render(request, 'blog/posts_by_tag.html', {'tag': tag, 'posts': posts})
