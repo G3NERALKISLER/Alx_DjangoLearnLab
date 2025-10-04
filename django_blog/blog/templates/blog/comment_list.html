@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<article>
+  <h1>{{ object.title }}</h1>
+  <div>{{ object.content|linebreaksbr }}</div>
+</article>
+
+<section id="comments">
+  <h2>Comments ({{ comments.count }})</h2>
+
+  {% include "blog/comments/_comment_list.html" %}
+  
+  <h3>Leave a comment</h3>
+  {% if user.is_authenticated %}
+    <form action="{% url 'blog:comment_create' post_pk=object.pk %}" method="post">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <button class="btn btn-primary" type="submit">Post comment</button>
+    </form>
+  {% else %}
+    <p><a href="{% url 'login' %}?next={{ request.path }}">Log in</a> to post a comment.</p>
+  {% endif %}
+</section>
+{% endblock %}
